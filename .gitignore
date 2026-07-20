@@ -1,0 +1,50 @@
+# ==========================
+# Node.js Dependencies
+# ==========================
+backend/node_modules/
+frontend/node_modules/
+
+# ==========================
+# Environment Variables
+# ==========================
+backend/.env
+frontend/.env
+
+# ==========================
+# Logs
+# ==========================
+*.log
+npm-debug.log*
+
+# ==========================
+# Build Output
+# ==========================
+frontend/dist/
+backend/dist/
+
+# ==========================
+# VS Code Settings
+# ==========================
+.vscode/
+
+# ==========================
+# OS Files
+# ==========================
+.DS_Store
+Thumbs.db
+
+# ==========================
+# Coverage
+# ==========================
+coverage/
+
+# ==========================
+# Temporary Files
+# ==========================
+*.tmp
+*.temp
+
+# ==========================
+# Uploaded Files
+# ==========================
+backend/uploads/
