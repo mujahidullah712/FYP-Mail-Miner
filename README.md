@@ -118,16 +118,6 @@ npm run dev
 
 ---
 
-## 📸 Screenshots
-
-You can add screenshots of:
-
-- Login Page
-- Dashboard
-- Candidate List
-- Resume Analysis
-- Gmail Integration
-
 ---
 
 ## 📌 Future Improvements
