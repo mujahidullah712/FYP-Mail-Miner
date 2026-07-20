@@ -1,21 +1,76 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EmailCard from "../components/EmailCard";
+import { getRemainingEmails } from "../services/api";
 
 const RemainingEmails = () => {
-  const remainingEmails = [
-    { sender: "newsletter@codingtips.io", subject: "Top 10 React Practices You Should Know", date: "Oct 9, 2025" },
-    { sender: "projectlead@company.com", subject: "Weekly Team Update", date: "Oct 8, 2025" },
-    { sender: "offers@shopnow.pk", subject: "Exclusive Discount — Limited Time Only!", date: "Oct 7, 2025" },
-    { sender: "classroom@university.edu", subject: "Lab Schedule for Next Week", date: "Oct 5, 2025" },
-  ];
+  const [emails, setEmails] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const emailsPerPage = 9;
+
+  useEffect(() => {
+    fetchRemainingEmails();
+  }, []);
+
+  const fetchRemainingEmails = async () => {
+    try {
+      const res = await getRemainingEmails();
+      setEmails(res.data);
+    } catch (err) {
+      console.error("Failed to fetch remaining emails", err);
+    }
+  };
+
+  const totalPages = Math.ceil(emails.length / emailsPerPage);
+
+  const indexOfLastEmail = currentPage * emailsPerPage;
+  const indexOfFirstEmail = indexOfLastEmail - emailsPerPage;
+  const currentEmails = emails.slice(indexOfFirstEmail, indexOfLastEmail);
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-semibold mb-6 text-gray-800">Remaining Emails</h2>
-      <div className="bg-white p-6 rounded-2xl shadow space-y-4">
-        {remainingEmails.map((email, index) => (
-          <EmailCard key={index} email={email} />
-        ))}
+      <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+        Remaining Emails ({emails.length})
+      </h2>
+
+      <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-gray-100">
+        {emails.length === 0 ? (
+          <p className="text-gray-500 text-sm">
+            No remaining emails found.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {currentEmails.map((email) => (
+              <EmailCard key={email._id || email.messageId} email={email} />
+            ))}
+          </div>
+        )}
+
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-4 mt-6">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              className="px-4 py-2 bg-white shadow hover:bg-gray-50 disabled:opacity-50 rounded font-semibold text-gray-700"
+            >
+              Previous
+            </button>
+
+            <span className="text-gray-600 font-medium">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              className="px-4 py-2 bg-white shadow hover:bg-gray-50 disabled:opacity-50 rounded font-semibold text-gray-700"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

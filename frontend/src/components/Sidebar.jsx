@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaEnvelope, FaCogs, FaSignOutAlt, FaList, FaHome, FaInbox } from "react-icons/fa";
 
-const Sidebar = () => {
+const Sidebar = ({ handleLogout }) => {
   const { pathname } = useLocation();
 
   const navItems = [
@@ -38,7 +38,10 @@ const Sidebar = () => {
           ))}
         </ul>
       </div>
-      <button className="flex items-center gap-3 text-red-500 hover:text-red-600 mt-6">
+      <button 
+        onClick={handleLogout}
+        className="flex items-center justify-center gap-3 bg-red-50 hover:bg-red-500 text-red-500 hover:text-white transition-colors duration-200 p-3 rounded-lg font-semibold mt-6 w-full"
+      >
         <FaSignOutAlt /> Logout
       </button>
     </div>

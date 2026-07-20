@@ -1,20 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EmailCard from "../components/EmailCard";
+import { getImportantEmails } from "../services/api";
 
 const ImportantEmails = () => {
-  const importantEmails = [
-    { sender: "hr@techfirm.com", subject: "Internship Offer for Summer 2025", matched: "Internship", date: "Today, 10:24 AM" },
-    { sender: "careers@startuphub.io", subject: "Exciting Job Opportunities Await!", matched: "Recruitment", date: "Oct 10, 2025" },
-    { sender: "scholarship@edu.org", subject: "Scholarship Result Announcement", matched: "Academic", date: "Oct 8, 2025" },
-  ];
+  const [emails, setEmails] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const emailsPerPage = 9;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getImportantEmails();
+      setEmails(res.data);
+    };
+
+    fetchData();
+  }, []);
+
+  const totalPages = Math.ceil(emails.length / emailsPerPage);
+  const indexOfLastEmail = currentPage * emailsPerPage;
+  const indexOfFirstEmail = indexOfLastEmail - emailsPerPage;
+  const currentEmails = emails.slice(indexOfFirstEmail, indexOfLastEmail);
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-semibold mb-6 text-gray-800">Important Emails</h2>
-      <div className="bg-white p-6 rounded-2xl shadow space-y-4">
-        {importantEmails.map((email, index) => (
-          <EmailCard key={index} email={email} highlight />
+      <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+        Important Emails
+      </h2>
+
+      <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-gray-100">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {currentEmails.map((email) => (
+          <EmailCard
+            key={email._id || Math.random()}
+            email={email}
+            highlight
+          />
         ))}
+      </div>
+
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-4 mt-6">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            className="px-4 py-2 bg-white shadow hover:bg-gray-50 disabled:opacity-50 rounded font-semibold text-gray-700"
+          >
+            Previous
+          </button>
+          <span className="text-gray-600 font-medium">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            className="px-4 py-2 bg-white shadow hover:bg-gray-50 disabled:opacity-50 rounded font-semibold text-gray-700"
+          >
+            Next
+          </button>
+        </div>
+      )}
       </div>
     </div>
   );

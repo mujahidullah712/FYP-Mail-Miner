@@ -1,50 +1,44 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import GoogleLogin from "./GoogleLogin";
+import { Navigate } from "react-router-dom";
 
-const Login = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+export default function Login({ setUser, user }) {
 
-    if (email && password) {
-      navigate("/"); 
-    } else {
-      alert("Please enter email and password");
-    }
-  };
+   if (user) {
+    return <Navigate to="/" />;
+  }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-96">
-        <h2 className="text-2xl font-semibold text-center mb-6">Professor Login</h2>
-        <form onSubmit={handleLogin} className="space-y-4">
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full border p-2 rounded-lg"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full border p-2 rounded-lg"
-          />
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-          >
-            Login
-          </button>
-        </form>
+    <div className="min-h-screen flex items-center justify-center 
+                    bg-gradient-to-br from-blue-50 to-blue-100">
+
+      <div className="w-full max-w-md bg-white 
+                      rounded-2xl shadow-xl 
+                      px-10 py-12">
+
+        {/* Logo / Title */}
+        <h1 className="text-3xl font-semibold text-blue-900 text-center">
+          MailMiner
+        </h1>
+
+
+        {/* Divider */}
+        <div className="flex items-center my-8">
+          <div className="flex-1 h-px bg-blue-100" />
+          <span className="px-4 text-xs text-blue-400 uppercase">
+            Secure Login
+          </span>
+          <div className="flex-1 h-px bg-blue-100" />
+        </div>
+
+        {/* Google Login */}
+        <GoogleLogin setUser={setUser} />
+
+        {/* Footer */}
+        <p className="text-xs text-center text-gray-400 mt-8">
+          Authorized access only • Google OAuth 2.0
+        </p>
       </div>
     </div>
   );
-};
-
-export default Login;
+}
