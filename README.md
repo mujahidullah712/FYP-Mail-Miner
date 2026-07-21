@@ -3,6 +3,9 @@
 Mail Miner is a Final Year Project (FYP) that automates the recruitment process by analyzing candidate emails and resumes. The system retrieves emails from Gmail, extracts applicant information, stores resumes, and provides an interface for HR to manage and review applications efficiently.
 
 ---
+## 📸 Project Preview
+> Home page
+![Mail Miner Dashboard](images/dashboard.png)
 
 ## 🚀 Features
 
@@ -49,25 +52,32 @@ Mail Miner is a Final Year Project (FYP) that automates the recruitment process 
 ---
 
 ## 📂 Project Structure
-
-```
+```text
 Mail-Miner/
-│
-├── backend/
-│   ├── routes/
+├── backend/              # Node.js + Express backend
+│   ├── config/
 │   ├── controllers/
+│   ├── middleware/
 │   ├── models/
-│   ├── uploads/
+│   ├── routes/
+│   ├── services/
+│   ├── utils/
+│   ├── .env
+│   ├── package.json
 │   └── server.js
 │
-├── frontend/
-│   ├── src/
+├── frontend/             # React + Vite frontend
 │   ├── public/
-│   └── package.json
+│   ├── src/
+│   ├── package.json
+│   └── vite.config.js
 │
-└── README.md
+├── images/               # README screenshots and project images
+│   └── dashboard.png
+│
+├── .gitignore            # Git ignore rules
+└── README.md             # Project documentation
 ```
-
 ---
 
 ## ⚙️ Installation
